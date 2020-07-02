@@ -1,0 +1,85 @@
+
+/**************************************
+ * Logging of Scripts
+ **************************************/
+
+.htmllog {
+  width: 100%;
+}
+
+.htmllog table {
+   width: 100%;
+}
+
+.htmllog th.time, .htmllog td.time {
+  width: 20%;
+}
+
+.htmllog td.warn, .htmllog td.warning {
+  background: #f7e3ab;
+}
+
+.htmllog td.error {
+  background: #f09995;
+}
+
+.htmllog td, .htmllog th {
+  padding-left: 1em;
+  padding-right: 1em;
+  border: 1px solid black;
+}
+
+.htmllog th { 
+  text-align: center;
+  background: #c0c0c0;
+}
+
+/**************************************
+ * Html results
+ **************************************/
+
+.htmlcontainer {
+  position: fixed;
+  top: 30px;
+  left: 0px;
+  background: #e0e0e0;
+  margin-left: 210px; 
+  border: 2px solid #c0c0c0;
+  z-index: 3000;
+  width: calc(100% - 230px);
+  height: 92%;
+}
+
+.htmlcontainer .htmltitle {
+  border: 1px solid black;
+  width: 100%;
+  padding: 0;
+  background: #d6e8cc;
+}
+
+.htmlcontainer .htmltitle .htmlclose {
+  margin-left: auto;
+  font-weight: bold;
+  color: #a0a0a0;
+  cursor: pointer;
+  width: 1em;
+}
+
+.htmlcontainer .htmltitle .htmlclose:hover {
+  color: black;
+}
+
+.htmlcontainer .htmlout {
+  padding: 3px;
+  overflow: auto;
+  height: 95%;
+}
+
+button.htmlresult {
+  width: 100%;
+}
+
+label.control-label[data-name="html"] {
+  display: none;
+}
+

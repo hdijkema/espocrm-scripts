@@ -1,0 +1,40 @@
+{
+    "controller": "controllers/record",
+    "boolFilterList": [ ],
+    "filterList": [
+        { "name": "Standaard", "label":  "Standaard taken" },
+        { "name": "Rapporten", "label": "Rapportages en controles" },
+        { "name": "Emails", "label":  "Emails" },
+        { "name": "Exports", "label": "Exportlijsten" }
+    ],
+    "selectDefaultFilters": {"filter": "Standaard"},
+    "color": "#e7e731",
+    "iconClass": "fas fa-calculator",
+    "dynamicLogic": {
+        "fields": {
+            "leden": {
+                "visible": {
+                    "conditionGroup": [
+                        {
+                            "type": "equals",
+                            "attribute": "voorEntiteit",
+                            "value": "Leden"
+                        }
+                    ]
+                }
+            },
+            "emailTemplate": {
+                "visible": {
+                    "conditionGroup": [
+                        {
+                            "type": "equals",
+                            "attribute": "type",
+                            "value": "email"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "kanbanViewMode": false
+}

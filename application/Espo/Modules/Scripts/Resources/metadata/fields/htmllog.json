@@ -1,0 +1,22 @@
+{
+   "params":[
+      {
+         "name":"default",
+         "type":"text"
+      },
+      {
+         "name":"readOnly",
+         "type":"bool",
+         "default": "true"
+      }
+   ],
+   "filter": false,
+   "fieldDefs": {
+      "type": "text",
+      "notNull": false,
+      "unique": false
+   },
+   "textFilter": false,
+   "readOnly": true,
+   "view": "scripts:views/fields/html-log"
+}

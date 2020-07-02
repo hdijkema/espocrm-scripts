@@ -1,0 +1,33 @@
+{
+    "labels": {
+        "Create Script": "Aanmaken Taak"
+    },
+    "fields": {
+        "init": "Init",
+        "formule": "Script",
+        "name": "Naam",
+        "lastexec": "Laatste Uitvoering",
+        "log": "Uitvoeringsverslag",
+        "type": "Type",
+        "leden": "Leden",
+        "voorEntiteit": "Voor",
+        "emailTemplate": "Email template"
+    },
+    "options": {
+        "type": {
+            "export": "Export",
+            "import-na": "Import nabewerking",
+            "controle": "Controles",
+            "rapport": "Rapport",
+            "email": "Email",
+            "email_aan_leden": "Email aan leden"
+        },
+        "voorEntiteit": {
+            "Leden": "Leden",
+            "-": "-"
+        }
+    },
+    "links": {
+        "leden": "Leden"
+    }
+}

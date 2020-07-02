@@ -1,0 +1,6 @@
+{
+    "cssList": [ 
+        "client/modules/scripts/css/scripts.css", 
+        "client/modules/scripts/css/datatables.min.css" 
+    ]
+}

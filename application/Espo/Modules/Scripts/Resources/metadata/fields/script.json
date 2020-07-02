@@ -1,0 +1,18 @@
+{
+   "params":[
+      {
+         "name": "readOnly",
+         "type": "bool",
+         "default": "false"
+      }
+   ],
+   "filter": false,
+   "fieldDefs": {
+      "type": "text",
+      "notNull": false,
+      "unique": false
+   },
+   "textFilter": false,
+   "readOnly": true,
+   "view": "scripts:views/fields/script"
+}

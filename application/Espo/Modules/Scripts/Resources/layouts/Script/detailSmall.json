@@ -1,0 +1,55 @@
+[
+    {
+        "rows": [
+            [
+                {
+                    "name": "name"
+                },
+                {
+                    "name": "type"
+                },
+                {
+                    "name": "lastexec"
+                }
+            ],
+            [
+                {
+                    "name": "description"
+                }
+            ],
+            [
+                {
+                    "name": "formule"
+                }
+            ],
+            [
+                {
+                    "name": "voorEntiteit"
+                },
+                {
+                    "name": "leden"
+                }
+            ],
+            [
+                {
+                    "name": "html"
+                }
+            ]
+        ],
+        "style": "default",
+        "label": ""
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "log"
+                }
+            ]
+        ],
+        "style": "info",
+        "dynamicLogicVisible": null,
+        "hidden": true,
+        "customLabel": "Verslag"
+    }
+]

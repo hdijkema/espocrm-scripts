@@ -1,0 +1,62 @@
+[
+    {
+        "rows": [
+            [
+                {
+                    "name": "name"
+                },
+                {
+                    "name": "type"
+                },
+                {
+                    "name": "lastexec"
+                }
+            ],
+            [
+                {
+                    "name": "description"
+                }
+            ],
+            [
+                {
+                    "name": "formule"
+                }
+            ],
+            [
+                {
+                    "name": "voorEntiteit"
+                },
+                {
+                    "name": "leden"
+                }
+            ],
+            [
+                {
+                    "name": "emailTemplate"
+                }
+            ],
+            [
+                {
+                    "name": "html"
+                }
+            ]
+        ],
+        "style": "success",
+        "dynamicLogicVisible": null,
+        "hidden": false,
+        "customLabel": "Uitvoerbare taak"
+    },
+    {
+        "rows": [
+            [
+                {
+                    "name": "log"
+                }
+            ]
+        ],
+        "style": "info",
+        "dynamicLogicVisible": null,
+        "hidden": false,
+        "customLabel": "Verwerking"
+    }
+]

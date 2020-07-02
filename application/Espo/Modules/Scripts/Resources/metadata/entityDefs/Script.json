@@ -1,0 +1,163 @@
+{
+    "fields": {
+        "name": {
+            "type": "varchar",
+            "required": true,
+            "trim": true,
+            "options": []
+        },
+        "description": {
+            "type": "text"
+        },
+        "createdAt": {
+            "type": "datetime",
+            "readOnly": true
+        },
+        "modifiedAt": {
+            "type": "datetime",
+            "readOnly": true
+        },
+        "createdBy": {
+            "type": "link",
+            "readOnly": true,
+            "view": "views/fields/user"
+        },
+        "modifiedBy": {
+            "type": "link",
+            "readOnly": true,
+            "view": "views/fields/user"
+        },
+        "assignedUser": {
+            "type": "link",
+            "required": true,
+            "view": "views/fields/assigned-user"
+        },
+        "teams": {
+            "type": "linkMultiple",
+            "view": "views/fields/teams"
+        },
+        "formule": {
+            "type": "script",
+            "notNull": false,
+            "unique": false,
+            "isCustom": true
+        },
+        "lastexec": {
+            "notNull": false,
+            "type": "datetime",
+            "minuteStep": 30,
+            "isCustom": true,
+            "readOnly": true
+        },
+        "html": {
+            "type": "htmlOut",
+            "notNull": false,
+            "unique": false,
+            "readOnly": true,
+            "isCustom": true
+        },
+        "log": {
+            "type": "htmllog",
+            "notNull": false,
+            "unique": false,
+            "isCustom": true,
+            "readOnly": true
+        },
+        "type": {
+            "type": "enum",
+            "options": [
+                "export",
+                "import-na",
+                "controle",
+                "rapport",
+                "email"
+            ],
+            "style": {
+                "export": null,
+                "import-na": null,
+                "controle": null,
+                "rapport": null,
+                "email": null
+            },
+            "default": "rapport",
+            "isCustom": true
+        },
+        "leden": {
+            "type": "linkMultiple",
+            "layoutDetailDisabled": false,
+            "layoutMassUpdateDisabled": false,
+            "importDisabled": false,
+            "noLoad": false,
+            "isCustom": true
+        },
+        "voorEntiteit": {
+            "type": "enum",
+            "required": true,
+            "options": [
+                "Leden",
+                "-"
+            ],
+            "style": {
+                "Leden": null,
+                "-": null
+            },
+            "default": "-",
+            "isCustom": true
+        },
+        "emailTemplate": {
+            "type": "wysiwyg",
+            "isCustom": true
+        }
+    },
+    "links": {
+        "createdBy": {
+            "type": "belongsTo",
+            "entity": "User"
+        },
+        "modifiedBy": {
+            "type": "belongsTo",
+            "entity": "User"
+        },
+        "assignedUser": {
+            "type": "belongsTo",
+            "entity": "User"
+        },
+        "teams": {
+            "type": "hasMany",
+            "entity": "Team",
+            "relationName": "EntityTeam",
+            "layoutRelationshipsDisabled": true
+        },
+        "leden": {
+            "type": "hasMany",
+            "relationName": "scriptContact",
+            "foreign": "scripts",
+            "entity": "Contact",
+            "audited": false,
+            "isCustom": true
+        }
+    },
+    "collection": {
+        "orderBy": "createdAt",
+        "order": "desc",
+        "textFilterFields": [
+            "name"
+        ],
+        "fullTextSearch": false,
+        "countDisabled": false
+    },
+    "indexes": {
+        "name": {
+            "columns": [
+                "name",
+                "deleted"
+            ]
+        },
+        "assignedUser": {
+            "columns": [
+                "assignedUserId",
+                "deleted"
+            ]
+        }
+    }
+}

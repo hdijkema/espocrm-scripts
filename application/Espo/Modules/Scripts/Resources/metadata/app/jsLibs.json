@@ -1,0 +1,7 @@
+{
+    "Datatables": {
+        "path": "client/modules/scripts/lib/datatables.min.js",
+        "exportsTo": "$",
+        "exportsAs": "Datatables"
+    }
+}
