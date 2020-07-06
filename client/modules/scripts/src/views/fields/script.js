@@ -69,7 +69,15 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 
         getInputVal: function(key, type) {
             var element = this.$el;
-			var el_par = element.find('input[name="' + key + '"]');
+			var el_par;
+			
+			if (type == 'enum') {
+			    el_par = element.find('select[name="' + key + '"]');
+			} else {
+			    el_par = element.find('input[name="' + key + '"]');
+			}
+			console.log(el_par);
+			
             var par_value = el_par.val();
             if (type  == 'bool') {
 				if (el_par.is(":checked")) { 
@@ -81,6 +89,17 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
                 par_value = this.getDateTime().fromDisplayDate(par_value);
             } else if (type == 'num') {
                 par_value = Number(par_value);
+            } else if (type == 'enum') {
+                var children = el_par.children();
+                var choosen = el_par.children("option:selected").val();
+                par_value = [];
+                par_value.push(choosen);
+                children.each(function(i) {
+                    var val = $(this).val();
+                    if (val != choosen) {
+                        par_value.push(val);
+                    }
+                });
             }
             return par_value;
         },
@@ -171,6 +190,15 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
                    expr += (par.value) ? 'true' : 'false';
                 } else if (par.type == 'date') {
                    expr += "'" + par.value + "'";
+				} else if (par.type == 'enum') {
+				   var e = "list(";
+				   var comma = "";
+				   par.value.forEach(function(elem) {
+				       e = e + comma + "'" + elem.replace("'", "\\'") + "'";
+				       comma = ", ";
+				   });
+				   e += ')';
+				   expr += e;
 				} else {
                    expr += par.value;
                 }
@@ -281,6 +309,19 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 					} else if (value == 'true' || value == 'false') {
 						type = 'bool';
 						value = (value == 'true') ? true : false;
+					} else if (value.substr(0, 4) == 'list') {
+					    type = 'enum';
+					    value = value.substr(4);
+					    value = value.replace(/^\s*[(]/, '');
+					    if (value.substr(-1, 1) == ')') { value = value.substr(0, value.length - 1); }
+					    value = value.trim();
+					    var elems = value.split(/[ ,]+/);
+					    value = [];
+					    elems.forEach(function(elem) {
+					        elem = elem.trim().replace(/^["']/, '').replace(/['"]$/, '');
+					        value.push(elem);
+					    });
+					    console.log(value);
 					}
 				} else if (type == 'date') {
                     value = value.substr(1);
@@ -326,7 +367,20 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
                     html += '</div>';
                     html += '</div>';
                     html += '<script>window.espo_script_dt_picker("dt_' + dt_id + '");</script>';
-				} else {
+				} else if (par.type == 'enum') { 
+				    var def_value = '';
+				    if (par.value.length > 0) { def_value = par.value[0]; }
+				    par.value = par.value.sort();
+				    html += '<div class="field">';
+				    html += '<select name="' + par.key + '" class="form-control main-element" >';
+				    par.value.forEach(function(elem) {
+				        var selected = '';
+				        if (elem == def_value) { selected = 'selected="selected"'; }
+				        html += '<option value="' + elem + '" ' + selected + '>' + elem + '</option>';
+				    });
+				    html += '</select>';
+				    html += '</div>';
+			    } else {
 					html += '<input class="main-element form-control" type="text" name="' + par.key + '" value="' + par.value + '"/>';
 				}
 				html += '</td>';

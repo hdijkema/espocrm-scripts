@@ -10,7 +10,7 @@ else
 fi
 
 CMD="$1"
-VERSION="0.1.0"
+VERSION=`cat VERSION`
 EXT="scripts-extension"
 NAME="Scripts"
 DESCRIPTION="Implements scripting using the formula language. Can be used e.g. to generate reports"
@@ -38,4 +38,4 @@ $BE "$CMD" "$VERSION" "$EXT" "$NAME" "$DESCRIPTION" "$MODULE"
 
 rm -f client/modules/scripts/css/datatables.min.css 
 rm -f client/modules/scripts/lib/datatables.min.js
-
+rm -f datatables.min.js datatables.min.css
