@@ -70,14 +70,16 @@
                 "import-na",
                 "controle",
                 "rapport",
-                "email"
+                "email",
+                "job"
             ],
             "style": {
                 "export": null,
                 "import-na": null,
                 "controle": null,
                 "rapport": null,
-                "email": null
+                "email": null,
+                "job": null
             },
             "default": "rapport",
             "isCustom": true
@@ -107,6 +109,11 @@
         "emailTemplate": {
             "type": "wysiwyg",
             "isCustom": true
+        },
+        "cron": {
+            "type": "varchar",
+            "isCustom": true,
+            "required": false
         }
     },
     "links": {

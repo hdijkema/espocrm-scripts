@@ -33,7 +33,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "cron": { "visible": { "conditionGroup": [ { "type": "equals", "attribute": "type", "value": "job" } ] } }
         }
     },
     "kanbanViewMode": false

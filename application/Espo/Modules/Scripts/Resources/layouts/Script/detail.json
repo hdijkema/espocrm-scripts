@@ -31,6 +31,10 @@
                 }
             ],
             [
+                {  "name": "cron" },
+		false
+            ], 
+            [
                 {
                     "name": "emailTemplate"
                 }
