@@ -51,6 +51,7 @@ class Script extends \Espo\Core\SelectManagers\Base
     protected function filterStandaard(&$result)
     {
       $result['whereClause'][] = [ 'type!=' => 'import-na' ];
+      $result['whereClause'][] = [ 'type!=' => 'job' ];
     }
 
 }
