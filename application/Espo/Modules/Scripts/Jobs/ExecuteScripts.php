@@ -15,7 +15,7 @@ class ExecuteScripts extends \Espo\Core\Jobs\Base
         $script_name = $script->get('name');
         $script_formula = $script->get('formule');
 
-        $GLOBALS['log']->warning('Start executing script: '.$script_name);
+        $GLOBALS['log']->info('Start executing script: '.$script_name);
 
         if ($script_formula) {
             $now =  date('Y-m-d H:i:s', time());
@@ -26,7 +26,7 @@ class ExecuteScripts extends \Espo\Core\Jobs\Base
             $em->saveEntity($script);
         }
 
-        $GLOBALS['log']->warning('Done  executing script: '.$script_name);
+        $GLOBALS['log']->info('Done  executing script: '.$script_name);
     }
 
 	public function run()
@@ -36,7 +36,7 @@ class ExecuteScripts extends \Espo\Core\Jobs\Base
         $rep = $em->getRepository('Script');
         $scripts = $rep->where([ 'type' => 'job' ])->find();
 
-        $GLOBALS['log']->warning('execute scripts: '.$scripts->count());
+        $GLOBALS['log']->info('execute scripts: '.$scripts->count());
 
         $scripts->rewind();
         while($scripts->current()) {
@@ -49,7 +49,7 @@ class ExecuteScripts extends \Espo\Core\Jobs\Base
                $this->execScript($script, $em);
            } else {
                $name = $script->get('name');
-               $GLOBALS['log']->warning('not executing: '.$name);
+               $GLOBALS['log']->info('not executing: '.$name);
            }
 
            $scripts->next();
