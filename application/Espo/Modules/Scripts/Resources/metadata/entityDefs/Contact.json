@@ -13,7 +13,7 @@
         "scripts": {
             "type": "hasMany",
             "relationName": "scriptContact",
-            "foreign": "leden",
+            "foreign": "contacts",
             "entity": "Script",
             "audited": false,
             "isCustom": true

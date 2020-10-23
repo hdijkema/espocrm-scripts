@@ -3,7 +3,7 @@ class AfterUninstall
 {
   private function info($msg)
   {
-	  $GLOBALS['log']->info('Scripts Module: ' . $msg);
+	  $GLOBALS['log']->warning('Scripts Module: ' . $msg);
   }
   
   public function run($container) 
@@ -22,8 +22,13 @@ class AfterUninstall
       $this->info('EspoCRM root directory = ' . $root_dir);
       
       $this->info('Modifying or creating ' . $css_f);
-      
-      $json = file_get_contents($css_f);
+     
+
+      if (file_exists($css_f)) {
+         $json = file_get_contents($css_f);
+      } else {
+         $json = "{ \"cssList\": [ ] }";
+      }
       $this->info('Json = ' . $json);
       
       $obj = json_decode($json);
@@ -57,7 +62,7 @@ class AfterUninstall
           $custom_script_field = json_decode('{ "fieldDefs": { "type": "text" }}');
       }
 
-      $custom_script_field["fieldDefs"]["type"] = "text";
+      $custom_script_field->fieldDefs->type = "text"; 
 
       file_put_contents($script_field_f, json_encode($custom_script_field, JSON_PRETTY_PRINT));
 
