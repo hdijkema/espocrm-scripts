@@ -135,7 +135,7 @@
             "relationName": "EntityTeam",
             "layoutRelationshipsDisabled": true
         },
-        "leden": {
+        "contacts": {
             "type": "hasMany",
             "relationName": "scriptContact",
             "foreign": "scripts",

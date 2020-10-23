@@ -1,0 +1,23 @@
+{
+    "fields": {
+        "scripts": {
+            "type": "linkMultiple",
+            "layoutDetailDisabled": true,
+            "layoutMassUpdateDisabled": true,
+            "importDisabled": true,
+            "noLoad": true,
+            "isCustom": true
+        }
+    }, 
+    "links": {
+        "scripts": {
+            "type": "hasMany",
+            "relationName": "scriptContact",
+            "foreign": "leden",
+            "entity": "Script",
+            "audited": false,
+            "isCustom": true
+        }
+    }
+}
+
