@@ -84,7 +84,7 @@
             "default": "rapport",
             "isCustom": true
         },
-        "leden": {
+        "contacts": {
             "type": "linkMultiple",
             "layoutDetailDisabled": false,
             "layoutMassUpdateDisabled": false,
@@ -96,11 +96,11 @@
             "type": "enum",
             "required": true,
             "options": [
-                "Leden",
+                "Contacts",
                 "-"
             ],
             "style": {
-                "Leden": null,
+                "Contacts": null,
                 "-": null
             },
             "default": "-",

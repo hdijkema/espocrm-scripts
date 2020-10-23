@@ -12,13 +12,13 @@
     "iconClass": "fas fa-calculator",
     "dynamicLogic": {
         "fields": {
-            "leden": {
+            "contacts": {
                 "visible": {
                     "conditionGroup": [
                         {
                             "type": "equals",
                             "attribute": "voorEntiteit",
-                            "value": "Leden"
+                            "value": "Contacts"
                         }
                     ]
                 }
@@ -27,9 +27,19 @@
                 "visible": {
                     "conditionGroup": [
                         {
-                            "type": "equals",
-                            "attribute": "type",
-                            "value": "email"
+                            "type": "or",
+                            "value": [
+                                {
+                                    "type": "equals",
+                                    "attribute": "type",
+                                    "value": "email"
+                                },
+                                {
+                                    "type": "equals",
+                                    "attribute": "type",
+                                    "value": "job"
+                                }
+                            ]
                         }
                     ]
                 }

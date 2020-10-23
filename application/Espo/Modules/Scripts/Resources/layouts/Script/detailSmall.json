@@ -27,7 +27,12 @@
                     "name": "voorEntiteit"
                 },
                 {
-                    "name": "leden"
+                    "name": "contacts"
+                }
+            ],
+            [
+                {
+                    "name": "emailTemplate"
                 }
             ],
             [
@@ -40,8 +45,10 @@
                 }
             ]
         ],
-        "style": "default",
-        "label": ""
+        "style": "success",
+        "dynamicLogicVisible": null,
+        "hidden": false,
+        "customLabel": "Executable task"
     },
     {
         "rows": [
@@ -54,6 +61,6 @@
         "style": "info",
         "dynamicLogicVisible": null,
         "hidden": true,
-        "customLabel": "Verslag"
+        "customLabel": "Executionlog"
     }
 ]
