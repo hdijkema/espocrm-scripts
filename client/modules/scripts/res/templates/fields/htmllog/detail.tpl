@@ -1,1 +1,6 @@
-<div class="rawhtml" style="display:none">{{complexText value}}</div><div class="htmllog">{{value}}</div>
+<div class="htmllog">
+<table>
+<table><tr><th class="time">Tijd</th><th class="log">Log</th></tr>
+{{{value}}}
+</table>
+</div>
