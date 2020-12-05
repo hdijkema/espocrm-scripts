@@ -5,7 +5,8 @@
         { "name": "Standaard", "label":  "Standaard taken" },
         { "name": "Rapporten", "label": "Rapportages en controles" },
         { "name": "Emails", "label":  "Emails" },
-        { "name": "Exports", "label": "Exportlijsten" }
+        { "name": "Exports", "label": "Exportlijsten" },
+        { "name": "Imports", "label": "Importeren van bestanden" }
     ],
     "selectDefaultFilters": {"filter": "Standaard"},
     "color": "#e7e731",

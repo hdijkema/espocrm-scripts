@@ -71,7 +71,8 @@
                 "controle",
                 "rapport",
                 "email",
-                "job"
+                "job",
+                "import"
             ],
             "style": {
                 "export": null,
@@ -79,7 +80,8 @@
                 "controle": null,
                 "rapport": null,
                 "email": null,
-                "job": null
+                "job": null,
+                "import": null
             },
             "default": "rapport",
             "isCustom": true

@@ -6,6 +6,18 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
         detailTemplate: 'scripts:fields/script/detail',
         editTemplate: 'scripts:fields/script/edit',
 
+        onChooseFile: function(evt, id) {
+           let input = event.target;
+           if (!input.files[0]) return undefined;
+           let file = input.files[0];
+           let fr = new FileReader();
+           fr.onload = function(evt) { 
+              console.log('setting contents of id:' + id);
+              $('#' + id).text(evt.target.result); 
+           };
+           fr.readAsText(file);
+        },
+
         setup: function () {
             Dep.prototype.setup.call(this);
 
@@ -76,7 +88,7 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 			} else {
 			    el_par = element.find('input[name="' + key + '"]');
 			}
-			console.log(el_par);
+			//console.log(el_par);
 			
             var par_value = el_par.val();
             if (type  == 'bool') {
@@ -100,6 +112,10 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
                         par_value.push(val);
                     }
                 });
+            } else if (type == 'csvfile') {
+                console.log('getting value for csvfile');
+                el_par = $('#' + key);
+                par_value = "'" + el_par.text().replaceAll('\n', '\\n').replaceAll('\'', '\\\'') + "'";
             }
             return par_value;
         },
@@ -321,14 +337,20 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 					        elem = elem.trim().replace(/^["']/, '').replace(/['"]$/, '');
 					        value.push(elem);
 					    });
-					    console.log(value);
+					    //console.log(value);
 					}
 				} else if (type == 'date') {
                     value = value.substr(1);
 					if (value.substr(-1, 1) == '"' || value.substr(-1, 1) == "'") {
 						value = value.substr(0, value.length - 1);
 					}
-				} else {
+				} else if (type == 'csvfile') {
+                    value = value.substr(1);
+					if (value.substr(-1, 1) == '"' || value.substr(-1, 1) == "'") {
+						value = value.substr(0, value.length - 1);
+					}
+                    //console.log('Type file detected: key=' + key + ', value=' + value);
+                } else {
                    console.log('UNKNOWN TYPE: ' + type + ', key=' + key + ', value=' + value);
                 }
                 
@@ -380,6 +402,10 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 				    });
 				    html += '</select>';
 				    html += '</div>';
+                } else if (par.type == 'csvfile') {
+                    html += '<input class="main-element form-control" type="file" name=file_"' + par.key + '" accept=".csv" ' +
+                            'onchange="window.espo_script.onChooseFile(event, \'' + par.key + '\');" />';
+                    html += '<textarea style="display:none" id=' + par.key + '></textarea>';
 			    } else {
 					html += '<input class="main-element form-control" type="text" name="' + par.key + '" value="' + par.value + '"/>';
 				}

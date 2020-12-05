@@ -20,7 +20,8 @@
             "controle": "Controles",
             "rapport": "Rapport",
             "email": "Email",
-            "email_aan_leden": "Email aan leden"
+            "email_aan_leden": "Email aan leden",
+            "import": "Importeren van bestanden"
         },
         "voorEntiteit": {
             "Leden": "Leden",
