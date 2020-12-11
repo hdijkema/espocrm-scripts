@@ -33,6 +33,7 @@ echo ""
 unzip DataTables.zip datatables.min.css datatables.min.js
 cp datatables.min.css client/modules/scripts/css/
 cp datatables.min.js client/modules/scripts/lib
+cp xlsx.full.min.js client/modules/scripts/lib
 
 $BE "$CMD" "$VERSION" "$EXT" "$NAME" "$DESCRIPTION" "$MODULE"
 
