@@ -6,6 +6,7 @@
    <div class="pars"></div>
 </td>
 <td style="width:20%;padding-right: 5px;">
+   <span id="script-msg"></span>
    <button class="formula">Uitvoeren</button>
 </td>
 </tr>

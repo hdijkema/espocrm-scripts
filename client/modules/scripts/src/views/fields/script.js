@@ -6,14 +6,20 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
         detailTemplate: 'scripts:fields/script/detail',
         editTemplate: 'scripts:fields/script/edit',
 
-        onChooseFile: function(evt, id) {
+        onChooseFile: function(evt, id, msg_id) {
            let input = event.target;
            if (!input.files[0]) return undefined;
            let file = input.files[0];
            let fr = new FileReader();
            fr.onload = function(evt) { 
               console.log('setting contents of id:' + id);
-              $('#' + id).text(evt.target.result); 
+			  var csv = evt.target.result;
+              $('#' + id).text(csv); 
+			  // Determine separator
+              var res = csv.match(/[,;]/g);
+              if (res.length == 0) {
+                 $('#'+msg_id).html('<span style="color:red;">No separator \',\' or \';\' found, is this a .CSV file?</span>');
+              }
            };
            fr.readAsText(file);
         },
@@ -115,7 +121,7 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
             } else if (type == 'csvfile') {
                 console.log('getting value for csvfile');
                 el_par = $('#' + key);
-                par_value = "'" + el_par.text().replaceAll('\n', '\\n').replaceAll('\'', '\\\'') + "'";
+                par_value = "'" + el_par.text().replaceAll('\n', '\\n').replaceAll('\r', '').replaceAll('\'', '\\\'') + "'";
             }
             return par_value;
         },
@@ -404,7 +410,7 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 				    html += '</div>';
                 } else if (par.type == 'csvfile') {
                     html += '<input class="main-element form-control" type="file" name=file_"' + par.key + '" accept=".csv" ' +
-                            'onchange="window.espo_script.onChooseFile(event, \'' + par.key + '\');" />';
+                            'onchange="window.espo_script.onChooseFile(event, \'' + par.key + '\', \'script-msg\');" />';
                     html += '<textarea style="display:none" id=' + par.key + '></textarea>';
 			    } else {
 					html += '<input class="main-element form-control" type="text" name="' + par.key + '" value="' + par.value + '"/>';
