@@ -1,4 +1,5 @@
 <?php
+# vi: set sw=4 ts=4 et:
 
 use \Espo\Core\Utils\System;
 
@@ -14,37 +15,38 @@ class AfterInstall
       $sys = new Espo\Core\Utils\System();
       $root_dir = $sys->getRootDir();
       $custom_dir = 'custom/Espo/Custom/Resources/metadata';
-      $custom_css_cfg_file = $custom_dir . '/app/client.json';
-      $css_f = $root_dir . '/' . $custom_css_cfg_file;
+
+      #$custom_css_cfg_file = $custom_dir . '/app/client.json';
+      #$css_f = $root_dir . '/' . $custom_css_cfg_file;
       
-      $my_css_dir = 'client/modules/scripts/css';
+      #$my_css_dir = 'client/modules/scripts/css';
       
-      $css_files = [ "$my_css_dir/scripts.css", "$my_css_dir/datatables.min.css" ];
+      #$css_files = [ "$my_css_dir/scripts.css", "$my_css_dir/datatables.min.css" ];
       
       $this->info('Installing...');
       $this->info('EspoCRM root directory = ' . $root_dir);
       
-      $this->info('Modifying or creating ' . $css_f);
+      #$this->info('Modifying or creating ' . $css_f);
       
-      $json = file_get_contents($css_f);
-      $this->info('Json = ' . $json);
+      #$json = file_get_contents($css_f);
+      #$this->info('Json = ' . $json);
       
-      $obj = json_decode($json);
+      #$obj = json_decode($json);
       
-      $css = $obj->cssList;
-      foreach ($css_files as $css_e) {
-          if (!in_array($css_e, $css)) {
-              array_push($css, $css_e);
-              $this->info('Added ' . $css_e . ' to entry cssList');
-          } else {
-              $this->info('Already in cssList: ' . $css_e);
-          }
-      }
-      $obj->cssList = $css;
+      #$css = $obj->cssList;
+      #foreach ($css_files as $css_e) {
+          #if (!in_array($css_e, $css)) {
+              #array_push($css, $css_e);
+              #$this->info('Added ' . $css_e . ' to entry cssList');
+          #} else {
+              #$this->info('Already in cssList: ' . $css_e);
+          #}
+      #}
+      #$obj->cssList = $css;
       
-      $json = json_encode($obj, JSON_PRETTY_PRINT);
+      #$json = json_encode($obj, JSON_PRETTY_PRINT);
       
-      file_put_contents($css_f, $json);
+      #file_put_contents($css_f, $json);
 
       # Because the Script type may have been used in other Entities, we need to make
       # sure, these entities will still be available. As any type defaults to varchar(255)

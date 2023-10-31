@@ -1,7 +1,47 @@
 #!/bin/bash
-# vi: set sw=4 ts=4:
+# vi: set sw=4 ts=4 et:
 
-INSTALL_PREFIX=~/crm
+CURDIR=`pwd`
+
+GIT_MODULE=`cat git-module.cfg`
+MY_GIT_MODULE=`basename $CURDIR`
+MY_SRC_DIR=`echo $CURDIR | sed -e s%/$MY_GIT_MODULE%%`
+MY_SRC_DIR=`basename $MY_SRC_DIR`
+ESPOCRM_DIR=`echo $CURDIR | sed -e s%/$MY_SRC_DIR/$MY_GIT_MODULE%%`
+
+echo ""
+echo "$0"
+echo ""
+echo "-------------------------------------------------------------------------------------"
+echo "GIT Module Configured: $GIT_MODULE"
+echo "Derived GIT module   : $MY_GIT_MODULE"
+echo "Src dir              : $MY_SRC_DIR"
+echo "ESPOCRM Directory    : $ESPOCRM_DIR"
+echo "-------------------------------------------------------------------------------------"
+
+OK=1
+if [ "$MY_SRC_DIR" != "src" ]; then
+   OK=0
+   echo "This source module is not in a 'src/$GIT_MODULE' directory under $ESPOCRM_DIR"
+elif [ "$MY_GIT_MODULE" != "$GIT_MODULE" ]; then
+   OK=0
+   echo "This source module is not in a 'src/$GITMODULE' directory under $ESPOCRM_DIR"
+fi
+
+if [ $OK = 0 ]; then
+   echo "We expect this script to be in a subdirectory of a 'src' directory, which has to be"
+   echo "right underneath the CRM main directory. Make sure it is."
+   exit 1
+fi
+
+echo ""
+echo "Building module..."
+echo ""
+
+echo "-------------------------------------------------------------------------------------"
+echo ""
+
+INSTALL_PREFIX=$ESPOCRM_DIR
 INSTALL_FILES="$INSTALL_PREFIX/data/installed"
 
 function usage()
@@ -18,7 +58,7 @@ function usage()
 }
 
 if [ "$#" -ne 6 ]; then
-	usage
+    usage
 fi
 
 CMD=$1;
@@ -43,7 +83,7 @@ done
 
 if [ "$CMD" == "install" ]; then
     mkdir -p $INSTALL_FILES
-	tar cf - $TARDIRS | (cd $INSTALL_PREFIX; tar xvf - ) >$INSTALL_FILES/$MODULE
+    tar cf - $TARDIRS | (cd $INSTALL_PREFIX; tar xvf - ) >$INSTALL_FILES/$MODULE
     FILES=`cat $INSTALL_FILES/$MODULE`
     for F in $FILES
     do
@@ -70,79 +110,79 @@ elif [ "$CMD" == "uninstall" ] ; then
 elif [ "$CMD" == "cleanup" ]; then
     rm -rf $BUILD_DIR
 elif [ "$CMD" == "buildext" ]; then
-	DIR=/tmp/$EXT
-	rm -rf $DIR
-	mkdir $DIR
+    DIR=/tmp/$EXT
+    rm -rf $DIR
+    mkdir $DIR
 
-	MANIFEST=$DIR/manifest.json
-	DT=`date +%Y-%m-%d`
-	
-	echo "{" 											>$MANIFEST
-	echo "  \"name\": \"$NAME\", " 						>>$MANIFEST
-	echo "  \"version\": \"$VERSION\", " 				>>$MANIFEST
-	echo "  \"acceptableVersions\": [ \">=5.8.5\" ], "	>>$MANIFEST
-	echo "  \"php\": [ \">=7.0.0\" ], " 				>>$MANIFEST
-	echo "  \"releaseDate\": \"$DT\", " 				>>$MANIFEST
-	echo "  \"author\": \"Hans Dijkema\", "				>>$MANIFEST
-	echo "  \"description\": \"$DESCRIPTION\""			>>$MANIFEST
-	echo "}"											>>$MANIFEST
+    MANIFEST=$DIR/manifest.json
+    DT=`date +%Y-%m-%d`
+    
+    echo "{"                                            >$MANIFEST
+    echo "  \"name\": \"$NAME\", "                      >>$MANIFEST
+    echo "  \"version\": \"$VERSION\", "                >>$MANIFEST
+    echo "  \"acceptableVersions\": [ \">=7.5.5\" ], "  >>$MANIFEST
+    echo "  \"php\": [ \">=7.0.0\" ], "                 >>$MANIFEST
+    echo "  \"releaseDate\": \"$DT\", "                 >>$MANIFEST
+    echo "  \"author\": \"Hans Dijkema\", "             >>$MANIFEST
+    echo "  \"description\": \"$DESCRIPTION\""          >>$MANIFEST
+    echo "}"                                            >>$MANIFEST
 
-	mkdir $DIR/files
+    mkdir $DIR/files
     if [ -d scripts ]; then
         TARDIRS="$TARDIRS scripts"
     fi
-	tar cf - $TARDIRS | (cd $DIR/files; tar xf - )
+    tar cf - $TARDIRS | (cd $DIR/files; tar xf - )
 
-	mkdir $DIR/scripts
+    mkdir $DIR/scripts
 
-	F=$DIR/scripts/BeforeInstall.php
-	echo "<?php"									>$F
-    echo "class BeforeInstall"						>>$F
-	echo "{"										>>$F
-	echo "  public function run($container) {"		>>$F
-	echo "  }" 										>>$F
-	echo "}"										>>$F
-	echo "?>"										>>$F
+    F=$DIR/scripts/BeforeInstall.php
+    echo "<?php"                                    >$F
+    echo "class BeforeInstall"                      >>$F
+    echo "{"                                        >>$F
+    echo "  public function run($container) {"      >>$F
+    echo "  }"                                      >>$F
+    echo "}"                                        >>$F
+    echo "?>"                                       >>$F
 
-	F=$DIR/scripts/AfterInstall.php
-	echo "<?php"									>$F
-    echo "class AfterInstall"						>>$F
-	echo "{"										>>$F
-	echo "  public function run($container) {}" 	>>$F
-	echo "}"										>>$F
-	echo "?>"										>>$F
+    F=$DIR/scripts/AfterInstall.php
+    echo "<?php"                                    >$F
+    echo "class AfterInstall"                       >>$F
+    echo "{"                                        >>$F
+    echo "  public function run($container) {}"     >>$F
+    echo "}"                                        >>$F
+    echo "?>"                                       >>$F
 
-	F=$DIR/scripts/BeforeUninstall.php
-	echo "<?php"									>$F
-    echo "class BeforeUninstall"					>>$F
-	echo "{"										>>$F
-	echo "  public function run($container) {}" 	>>$F
-	echo "}"										>>$F
-	echo "?>"										>>$F
+    F=$DIR/scripts/BeforeUninstall.php
+    echo "<?php"                                    >$F
+    echo "class BeforeUninstall"                    >>$F
+    echo "{"                                        >>$F
+    echo "  public function run($container) {}"     >>$F
+    echo "}"                                        >>$F
+    echo "?>"                                       >>$F
 
-	F=$DIR/scripts/AfterUninstall.php
-	echo "<?php"									>$F
-    echo "class AfterUninstall"						>>$F
-	echo "{"										>>$F
-	echo "  public function run($container) {}" 	>>$F
-	echo "}"										>>$F
-	echo "?>"										>>$F
+    F=$DIR/scripts/AfterUninstall.php
+    echo "<?php"                                    >$F
+    echo "class AfterUninstall"                     >>$F
+    echo "{"                                        >>$F
+    echo "  public function run($container) {}"     >>$F
+    echo "}"                                        >>$F
+    echo "?>"                                       >>$F
 
     if [ -d $DIR/files/scripts ]; then
         (cd $DIR/files; tar cf - scripts) | (cd $DIR; tar xvf - )
         rm -rf $DIR/files/scripts
     fi
 
-	EXTENSION="espocrm-$EXT-$VERSION.zip"
-	EXT_FILE="$BUILD_DIR/$EXTENSION"
+    EXTENSION="espocrm-$EXT-$VERSION.zip"
+    EXT_FILE="$BUILD_DIR/$EXTENSION"
 
-	mkdir -p $BUILD_DIR
+    mkdir -p $BUILD_DIR
 
     echo "creating extension in $EXT_FILE"
     rm -f $EXT_FILE
-	(cd $DIR;zip -r $EXT_FILE .)
+    (cd $DIR;zip -q -r $EXT_FILE .)
 
-	echo "$EXTENSION created in directory $BUILD_DIR"
+    echo "$EXTENSION created in directory $BUILD_DIR"
 else 
     echo ""
     echo "Command '$CMD' given, but it is not a supported command"

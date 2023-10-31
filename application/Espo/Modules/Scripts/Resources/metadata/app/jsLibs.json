@@ -3,5 +3,11 @@
         "path": "client/modules/scripts/lib/datatables.min.js",
         "exportsTo": "$",
         "exportsAs": "Datatables"
+    }, 
+    "Xlsx": {
+        "path": "client/modules/scripts/lib/exceljs.min.js",
+        "exportsTo": "$",
+        "exportsAs": "Xlsx"
     }
+
 }

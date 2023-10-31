@@ -1,10 +1,20 @@
-// vim: ts=4 sw=4 sts=4 sr noet
-define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
+// vim: ts=4 sw=4 sts=4 sr et:
+define('scripts:views/fields/script', 'views/fields/formula', function (Dep) {
 
     return Dep.extend({
 
         detailTemplate: 'scripts:fields/script/detail',
         editTemplate: 'scripts:fields/script/edit',
+
+		run_mode: false, 
+
+		isRunMode: function() {
+			return this.run_mode;
+		},
+
+		setRunning: function(yes) {
+			this.run_mode = yes;
+		},
 
         onChooseFile: function(evt, id, msg_id) {
            let input = event.target;
@@ -27,8 +37,6 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
         setup: function () {
             Dep.prototype.setup.call(this);
 
-            this.containerId = 'editor-' + Math.floor((Math.random() * 10000) + 1).toString();
-
             var dt_format = this.getDateTime().dateFormat;
             var dt_week_start = this.getDateTime().weekStart;
 			window.espo_script_dt_picker = function(id) {
@@ -48,29 +56,6 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
             };
 
             window.espo_script = this;
-
-            if (this.mode == 'edit' || this.mode == 'detail') {
-                this.wait(true);
-                Promise.all([
-                    new Promise(function (resolve) {
-                        Espo.loader.load('lib!client/lib/ace/ace.js', function () {
-                            Espo.loader.load('lib!client/lib/ace/mode-javascript.js', function () {
-                                resolve();
-                            }.bind(this));
-                        }.bind(this));
-                    }.bind(this))
-                ]).then(function () {
-                    ace.config.set("basePath", this.getBasePath() + 'client/lib/ace');
-                    this.wait(false);
-                }.bind(this));
-            }
-
-            this.on('remove', function () {
-                if (this.editor) {
-                    this.editor.destroy();
-                }
-            }, this);
-
         },
 
         decodeHtmlEntities(encoded_html) {
@@ -140,6 +125,8 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
         },
 
 		uitvoerenSave: function () {
+			this.setRunning(true);	
+
             var data = this.fetch();
 
             var self = this;
@@ -159,18 +146,21 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 
             if (!attrs) {
                 this.inlineEditClose();
+				this.setRunning(false);
                 return;
             }
 
             if (this.validate()) {
                 this.notify('Not valid', 'error');
                 model.set(prev, {silent: true});
+				this.setRunning(false);
                 return;
             }
 
             this.notify('Bezig uit te voeren...');
             model.save(attrs, {
                 success: function () {
+					self.setRunning(false);
                     self.trigger('after:save');
                     model.trigger('after:save');
                     self.notify('Klaar, bekijk resultaat', 'success');
@@ -179,15 +169,16 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
                     }  
                 },
                 error: function () {
+					self.setRunning(false);
                     self.notify('Error occured', 'error');
                     model.set(prev, {silent: true});
                     self.render()
                 },
                 patch: true
             });
+
             this.inlineEditClose(true);
         },
-
 
         uitvoeren: function() {
             this.initialAttributes = this.model.getClonedAttributes();
@@ -252,48 +243,30 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
         },
 
         fetch: function() {
-            if (this.mode == 'edit') {
-            	var data = {};
-            	data[this.name] = this.editor.getValue()
-            	return data;
+			if (this.isEditMode()) {
+				return Dep.prototype.fetch.call(this);
+			} else if (this.isRunMode()) {
+				var data = {};
+				data[this.name] = this.$element.val();
+				return data;
             } else {
-                return Dep.prototype.fetch.call(this);
+				var data = {};
+				data[this.name] = Dep.prototype.getValueForDisplay.call(this);
+				return data;
             }
-        },
-
-        afterRenderEdit: function() {
-            this.$editor = this.$el.find('#' + this.containerId);
-            this.$editor.css("min-height", "400px");
-            var editor = this.editor = ace.edit(this.containerId);
-
-            if (this.isEditMode()) {
-                editor.getSession().on('change', function () {
-                    this.trigger('change', {ui: true});
-                }.bind(this));
-            }
-
-            editor.setShowPrintMargin(false);
-            editor.getSession().setUseWorker(false);
-
-            var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
-            editor.session.setMode(new JavaScriptMode());
         },
 
         afterRender: function () {
 			Dep.prototype.afterRender.call(this);
 
-			if (this.mode == 'edit') { 
-				this.afterRenderEdit();
-				return; 
+			if (this.isEditMode()) {
+				this.editor.setOption('maxLines', 40); 
 			}
 
 			this.initElement();
 
 			var element = this.$el.find('> .execformula');
-			//console.log(element);
-
 			var form_txt = this.getFormula();
-			//console.log(form_txt);
 
 			var parameters = [];
    
@@ -301,7 +274,6 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 			var matches = [];
 			var re_par = this.re_par;
 			form_lines.forEach(function(line) {
-				//console.log("line:"+line);
 				var match = line.match(re_par);
 				if (match) {
 					var obj = {
@@ -310,10 +282,10 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 						type: match[1],
 						value: match[3]
 					};
-                   	matches.push(obj); // [match[0], match[1], match[2]]);
+                   	matches.push(obj); 
 				}
 			}); 
-			//console.log(matches);
+
 			matches.forEach(function(m) { 
 				var key = m.key.trim();
 				var value = m.value.trim();
@@ -343,7 +315,6 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 					        elem = elem.trim().replace(/^["']/, '').replace(/['"]$/, '');
 					        value.push(elem);
 					    });
-					    //console.log(value);
 					}
 				} else if (type == 'date') {
                     value = value.substr(1);
@@ -355,7 +326,6 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 					if (value.substr(-1, 1) == '"' || value.substr(-1, 1) == "'") {
 						value = value.substr(0, value.length - 1);
 					}
-                    //console.log('Type file detected: key=' + key + ', value=' + value);
                 } else {
                    console.log('UNKNOWN TYPE: ' + type + ', key=' + key + ', value=' + value);
                 }
@@ -364,10 +334,8 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 				parameters.push(par);
 			});
 			this.parameters = parameters;
-			//console.log(parameters);
 
 			var el_pars = element.find('.pars');
-			//console.log(el_pars);
             var dt_id = 0;
 
 			var html = '<table style="width:100%;">';
@@ -420,7 +388,6 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 			});
 			html += '</table>';
 			el_pars.html(html);
-			//console.log(el_pars.html());
 
 			var el_button = element.find('.formula');
 			var me = this;
