@@ -71,8 +71,7 @@
                 "controle",
                 "rapport",
                 "email",
-                "job",
-                "import"
+                "job"
             ],
             "style": {
                 "export": null,
@@ -80,13 +79,12 @@
                 "controle": null,
                 "rapport": null,
                 "email": null,
-                "job": null,
-                "import": null
+                "job": null
             },
             "default": "rapport",
             "isCustom": true
         },
-        "contacts": {
+        "leden": {
             "type": "linkMultiple",
             "layoutDetailDisabled": false,
             "layoutMassUpdateDisabled": false,
@@ -98,11 +96,11 @@
             "type": "enum",
             "required": true,
             "options": [
-                "Contacts",
+                "Leden",
                 "-"
             ],
             "style": {
-                "Contacts": null,
+                "Leden": null,
                 "-": null
             },
             "default": "-",
@@ -137,7 +135,7 @@
             "relationName": "EntityTeam",
             "layoutRelationshipsDisabled": true
         },
-        "contacts": {
+        "leden": {
             "type": "hasMany",
             "relationName": "scriptContact",
             "foreign": "scripts",

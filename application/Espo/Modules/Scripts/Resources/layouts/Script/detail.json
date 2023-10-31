@@ -27,7 +27,7 @@
                     "name": "voorEntiteit"
                 },
                 {
-                    "name": "contacts"
+                    "name": "leden"
                 }
             ],
             [
@@ -48,7 +48,7 @@
         "style": "success",
         "dynamicLogicVisible": null,
         "hidden": false,
-        "customLabel": "Executable Task"
+        "customLabel": "Uitvoerbare taak"
     },
     {
         "rows": [
@@ -61,6 +61,6 @@
         "style": "info",
         "dynamicLogicVisible": null,
         "hidden": false,
-        "customLabel": "Executionlog"
+        "customLabel": "Verwerking"
     }
 ]
