@@ -5,20 +5,21 @@
         { "name": "Standaard", "label":  "Standaard taken" },
         { "name": "Rapporten", "label": "Rapportages en controles" },
         { "name": "Emails", "label":  "Emails" },
-        { "name": "Exports", "label": "Exportlijsten" }
+        { "name": "Exports", "label": "Exportlijsten" },
+        { "name": "Imports", "label": "Importeren van bestanden" }
     ],
     "selectDefaultFilters": {"filter": "Standaard"},
     "color": "#e7e731",
     "iconClass": "fas fa-calculator",
     "dynamicLogic": {
         "fields": {
-            "leden": {
+            "contacts": {
                 "visible": {
                     "conditionGroup": [
                         {
                             "type": "equals",
                             "attribute": "voorEntiteit",
-                            "value": "Leden"
+                            "value": "Contacts"
                         }
                     ]
                 }
@@ -27,9 +28,19 @@
                 "visible": {
                     "conditionGroup": [
                         {
-                            "type": "equals",
-                            "attribute": "type",
-                            "value": "email"
+                            "type": "or",
+                            "value": [
+                                {
+                                    "type": "equals",
+                                    "attribute": "type",
+                                    "value": "email"
+                                },
+                                {
+                                    "type": "equals",
+                                    "attribute": "type",
+                                    "value": "job"
+                                }
+                            ]
                         }
                     ]
                 }

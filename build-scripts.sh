@@ -31,20 +31,20 @@ echo " - FixedHeader"
 echo " - SearchPanes"  
 echo ""
 (cd libs; unzip DataTables.zip datatables.min.css datatables.min.js DataTables-1.10.21/images/*)
-(cd libs; tar cf - DataTables-1.10.21) | (cd client/modules/scripts/css;tar xf - )
+(cd libs; tar cf - DataTables-1.10.21) | (cd client/custom/modules/scripts/css;tar xf - )
 cd libs
-cp datatables.min.css ../client/modules/scripts/css/
-cp datatables.min.js ../client/modules/scripts/lib/datatables.min.js
-cp exceljs.min.js ../client/modules/scripts/lib/exceljs.min.js
+cp datatables.min.css ../client/custom/modules/scripts/css/
+cp datatables.min.js ../client/custom/modules/scripts/lib/datatables.min.js
+cp exceljs.min.js ../client/custom/modules/scripts/lib/exceljs.min.js
 cd ..
 
 $BE "$CMD" "$VERSION" "$EXT" "$NAME" "$DESCRIPTION" "$MODULE"
 
-rm -f client/modules/scripts/css/datatables.min.css 
-rm -rf client/modules/scripts/css/DataTables-1.10.21
-mkdir -p client/modules/scripts/lib
-rm -f client/modules/scripts/lib/datatables.min.js
-rm -f client/modules/scripts/lib/exceljs.min.js
+rm -f client/custom/modules/scripts/css/datatables.min.css 
+rm -rf client/custom/modules/scripts/css/DataTables-1.10.21
+mkdir -p client/custom/modules/scripts/lib
+rm -f client/custom/modules/scripts/lib/datatables.min.js
+rm -f client/custom/modules/scripts/lib/exceljs.min.js
 
 cd libs
 rm -f datatables.min.js datatables.min.css

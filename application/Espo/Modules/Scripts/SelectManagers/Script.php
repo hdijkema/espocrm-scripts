@@ -48,6 +48,11 @@ class Script extends \Espo\Core\SelectManagers\Base
       $result['whereClause'][] = [ 'type' => 'export' ];
     }
 
+    protected function filterImports(&$result)
+    {
+      $result['whereClause'][] = [ 'type' => 'import' ];
+    }
+
     protected function filterStandaard(&$result)
     {
       $result['whereClause'][] = [ 'type!=' => 'import-na' ];

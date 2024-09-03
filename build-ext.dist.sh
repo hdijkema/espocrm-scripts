@@ -84,7 +84,7 @@ done
 
 if [ "$CMD" == "install" ]; then
     mkdir -p $INSTALL_FILES
-    tar cf - $TARDIRS | (cd $INSTALL_PREFIX; tar xvf - ) >$INSTALL_FILES/$MODULE
+    tar cf - $TARDIRS | (cd $INSTALL_PREFIX; tar hxvf - ) >$INSTALL_FILES/$MODULE
     FILES=`cat $INSTALL_FILES/$MODULE`
     for F in $FILES
     do
