@@ -1,5 +1,4 @@
 
-
 all: ext
 	@echo "Extension built, you should be able to install it using EspoCRM extension installer"
 
