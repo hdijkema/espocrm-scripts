@@ -21,19 +21,19 @@ echo "ESPOCRM Directory    : $ESPOCRM_DIR"
 echo "-------------------------------------------------------------------------------------"
 
 OK=1
-if [ "$MY_SRC_DIR" != "src" ]; then
-   OK=0
-   echo "This source module is not in a 'src/$GIT_MODULE' directory under $ESPOCRM_DIR"
-elif [ "$MY_GIT_MODULE" != "$GIT_MODULE" ]; then
-   OK=0
-   echo "This source module is not in a 'src/$GITMODULE' directory under $ESPOCRM_DIR"
-fi
+#if [ "$MY_SRC_DIR" != "src" ]; then
+#   OK=0
+#   echo "This source module is not in a 'src/$GIT_MODULE' directory under $ESPOCRM_DIR"
+#elif [ "$MY_GIT_MODULE" != "$GIT_MODULE" ]; then
+#   OK=0
+#   echo "This source module is not in a 'src/$GITMODULE' directory under $ESPOCRM_DIR"
+#fi
 
-if [ $OK = 0 ]; then
-   echo "We expect this script to be in a subdirectory of a 'src' directory, which has to be"
-   echo "right underneath the CRM main directory. Make sure it is."
-   exit 1
-fi
+#if [ $OK = 0 ]; then
+#   echo "We expect this script to be in a subdirectory of a 'src' directory, which has to be"
+#   echo "right underneath the CRM main directory. Make sure it is."
+#   exit 1
+#fi
 
 echo ""
 echo "Building module..."

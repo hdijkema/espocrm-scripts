@@ -40,6 +40,8 @@ define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables',
                 this.$htmlresult.attr('has-onclick', 'yes');
             }
 
+            this.initTables();
+
             if (window.result_open != undefined) {
                 if (window.result_open) {
                     this.$htmlcontainer.css('display', 'block');
@@ -52,6 +54,51 @@ define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables',
             this.$htmlout = this.$el.find('> .htmlcontainer .htmlout');
             this.$htmlclose = this.$el.find('> .htmlcontainer .htmltitle .htmlclose');
             this.$htmlresult = this.$el.find('> .htmlresult');
+        },
+
+	/***********************************************************************************
+	* This function is needed to evaluate if we have any output of TableGroup\ToHtmlType.
+        * TableGroup\ToHtmlType is part of 'espocrm-hookedformulas' (see GitHub). 
+        * So this is a dependency between 'espocrm-scripts' and 'espocrm-hookedformulas'. 
+        * This was needed, because as of version 7.2.7 of EspoCRM, the security restrictions
+        * for inline scripts have been risen. 
+	************************************************************************************/
+
+        initTables: function() {
+            let tables = this.$el.find("table");
+            let l = tables.length;
+            let i;
+
+            for(i = 0; i < l; i++) {
+                let table = tables[i];
+                if (table.id.startsWith('data_table_id')) {
+                   let el = $(table);
+                   let _filename = el.attr('filename');
+                   let _columns = JSON.parse(atob(el.attr('columns')));
+                   let _orders = JSON.parse(atob(el.attr('order')));
+                   let _has_widths = parseInt(el.attr('has_widths'));
+                   let _page_length = parseInt(el.attr('pagelength'));
+
+                   let _buttons = [ 'copy', 'excel', 'print' ];
+                   if (_filename != '') {
+                      _buttons = [ { name: 'copy', extend: 'copy' }, 
+                                   { name: 'excel', extend: 'excel', filename: _filename, title: null },
+                                   { name: 'print', extend: 'print' }
+                                 ];
+                   }
+
+                   let _auto_width = (_has_widths) ? false : true;
+
+                   el.DataTable( {
+                      dom: 'Bfrtip',
+                      buttons: _buttons,
+                      pageLength: _page_length,
+                      columns: _columns,
+                      autoWidth: _auto_width,
+                      order: _orders
+                   });
+                }
+            };
         },
 
         openHtml: function() {

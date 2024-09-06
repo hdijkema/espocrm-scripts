@@ -50,19 +50,9 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
             window.espo_script = this;
 
             if (this.mode == 'edit' || this.mode == 'detail') {
-                this.wait(true);
-                Promise.all([
-                    new Promise(function (resolve) {
-                        Espo.loader.load('lib!client/lib/ace.js', function () {
-                            Espo.loader.load('lib!client/lib/ace-mode-javascript.js', function () {
-                                resolve();
-                            }.bind(this));
-                        }.bind(this));
-                    }.bind(this))
-                ]).then(function () {
-                    ace.config.set("basePath", this.getBasePath() + 'client/lib');
-                    this.wait(false);
-                }.bind(this));
+                this.wait(
+                    this.requireAce()
+                );
             }
 
             this.on('remove', function () {
@@ -71,6 +61,25 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
                 }
             }, this);
 
+        },
+
+        requireAce: function() {
+            return Espo.loader
+                .requirePromise('lib!ace')
+                .then(() => {
+                    let list = [
+                        Espo.loader.requirePromise('lib!ace-mode-javascript'),
+                        Espo.loader.requirePromise('lib!ace-ext-language_tools'),
+                    ];
+
+                    if (this.getThemeManager().getParam('isDark')) {
+                        list.push(
+                            Espo.loader.requirePromise('lib!ace-theme-tomorrow_night')
+                        );
+                    }
+
+                    return Promise.all(list);
+                });
         },
 
         decodeHtmlEntities(encoded_html) {
