@@ -91,13 +91,19 @@ define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables',
 
                    let _auto_width = (_has_widths) ? false : true;
 
+                   let _table_orders = [];
+                   _orders.forEach(function(order) {
+                       let _to = [ order.index, order.sort ];
+                       _table_orders.push(_to);
+                   });
+
                    el.DataTable( {
                       dom: 'Bfrtip',
                       buttons: _buttons,
                       pageLength: _page_length,
                       columns: _columns,
                       autoWidth: _auto_width,
-                      order: _orders
+                      order: _table_orders
                    });
                 }
             };
