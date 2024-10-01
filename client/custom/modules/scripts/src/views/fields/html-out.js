@@ -74,8 +74,10 @@ define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables',
                 if (table.id.startsWith('data_table_id')) {
                    let el = $(table);
                    let _filename = el.attr('filename');
-                   let _columns = JSON.parse(atob(el.attr('columns')));
-                   let _orders = JSON.parse(atob(el.attr('order')));
+                   let _col_str = atob(el.attr('columns'));
+                   let _columns = JSON.parse(_col_str);
+                   let _orders_str = atob(el.attr('order'));
+                   let _orders = JSON.parse(_orders_str);
                    let _has_widths = parseInt(el.attr('has_widths'));
                    let _page_length = parseInt(el.attr('pagelength'));
 
