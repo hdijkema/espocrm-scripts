@@ -16,13 +16,6 @@ class AfterInstall
       $root_dir = $sys->getRootDir();
       $custom_dir = 'custom/Espo/Custom/Resources/metadata';
 
-      #$custom_css_cfg_file = $custom_dir . '/app/client.json';
-      #$css_f = $root_dir . '/' . $custom_css_cfg_file;
-      
-      #$my_css_dir = 'client/modules/scripts/css';
-      
-      #$css_files = [ "$my_css_dir/scripts.css", "$my_css_dir/datatables.min.css" ];
-      
       $this->info('Installing...');
       $this->info('EspoCRM root directory = ' . $root_dir);
       

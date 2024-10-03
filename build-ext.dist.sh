@@ -8,7 +8,7 @@ MY_GIT_MODULE=`basename $CURDIR`
 MY_SRC_DIR=`echo $CURDIR | sed -e s%/$MY_GIT_MODULE%%`
 MY_SRC_DIR=`basename $MY_SRC_DIR`
 #ESPOCRM_DIR=`echo $CURDIR | sed -e s%/$MY_SRC_DIR/$MY_GIT_MODULE%%`
-ESPOCRM_DIR=~/crm
+ESPOCRM_DIR="${CRM_DIR:-$HOME/crm}"
 
 echo ""
 echo "$0"

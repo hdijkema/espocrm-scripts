@@ -73,7 +73,7 @@ class ExecuteScripts implements JobDataLess
 			$scripts->rewind();
 			$script_idx = 0;
 			while($script_idx < $script_count) {
-				$script_id = $scripts->current()->id;
+				$script_id = $scripts->current()->getId();
 				$script = $em->getEntity('Script', $script_id);
 				$script_name = $script->get('name');
 				$cron = $script->get('cron');

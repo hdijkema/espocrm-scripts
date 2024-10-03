@@ -14,7 +14,7 @@ class AfterUninstall
       $custom_css_cfg_file = $custom_dir . '/app/client.json';
       $css_f = $root_dir . '/' . $custom_css_cfg_file;
       
-      $my_css_dir = 'client/modules/scripts/css';
+      $my_css_dir = 'client/custom/modules/scripts/css';
       
       $css_files = [ "$my_css_dir/scripts.css", "$my_css_dir/datatables.min.css" ];
       

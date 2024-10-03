@@ -32,6 +32,7 @@ echo " - SearchPanes"
 echo ""
 (cd libs; unzip DataTables.zip datatables.min.css datatables.min.js DataTables-1.10.21/images/*)
 (cd libs; tar cf - DataTables-1.10.21) | (cd client/custom/modules/scripts/css;tar xf - )
+mkdir -p client/custom/modules/scripts/lib
 cd libs
 cp datatables.min.css ../client/custom/modules/scripts/css/
 cp datatables.min.js ../client/custom/modules/scripts/lib/datatables.min.js

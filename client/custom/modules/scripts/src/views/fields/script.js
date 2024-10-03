@@ -6,8 +6,10 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
         detailTemplate: 'scripts:fields/script/detail',
         editTemplate: 'scripts:fields/script/edit',
 
+		script_version: '0.1',
+
         onChooseFile: function(evt, id, msg_id) {
-           let input = event.target;
+           let input = evt.target;
            if (!input.files[0]) return undefined;
            let file = input.files[0];
            let fr = new FileReader();
@@ -380,7 +382,9 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
             var dt_id = 0;
 
 			var html = '<table style="width:100%;">';
+			html += "\n" + '<!-- Script Version: ' + this.script_version + ' -->' + "\n";
             var me = this;
+			var param_funcs = [];
 			parameters.forEach(function(par) {
 				html += '<tr>';
 				html += '<td style="padding-right: 5px;">' + par.key.replace(/_/g, ' ') + ':' + '</td>';
@@ -392,18 +396,26 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 					html += '<input class="main-element" type="checkbox" name="' + par.key + '" ' + checked + ' />';
 				} else if (par.type == 'date') {
                     dt_id += 1;
+                    let button_id = 'btn_' + dt_id;
 					var dt = me.getDateTime().toDisplayDate(par.value);
+                    dt_id += 1;
                     html += '<div class="field">';
                     html += '<div class="input-group">';
 					html += '<input class="main-element form-control" id="dt_' + dt_id + '" type="text" name="' + par.key + '" value="' + dt + '"/>';
                     html += '<span class="input-group-btn">';
-					html += '<button type="button" class="btn btn-default btn-icon date-picker-btn" tabindex="-1" onclick="window.espo_script_dt_show_picker(\'dt_' + dt_id + '\');" >';
+					html += '<button type="button" id="' + button_id + '" class="btn btn-default btn-icon date-picker-btn" tabindex="-1" >';
                     html += '<i class="far fa-calendar"></i>'
                     html += '</button>';
                     html += '</span>';
                     html += '</div>';
                     html += '</div>';
-                    html += '<script>window.espo_script_dt_picker("dt_' + dt_id + '");</script>';
+
+                    param_funcs.push(function() {
+                        let el = document.getElementById(button_id);
+                        window.espo_script_dt_picker('dt_' + dt_id);
+                        $(el).on('click', function() { window.espo_script_dt_show_picker('dt_' + dt_id); });
+                    });
+
 				} else if (par.type == 'enum') { 
 				    var def_value = '';
 				    if (par.value.length > 0) { def_value = par.value[0]; }
@@ -418,9 +430,17 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 				    html += '</select>';
 				    html += '</div>';
                 } else if (par.type == 'csvfile') {
-                    html += '<input class="main-element form-control" type="file" name=file_"' + par.key + '" accept=".csv" ' +
-                            'onchange="window.espo_script.onChooseFile(event, \'' + par.key + '\', \'script-msg\');" />';
+                    let button_id = 'btn_' + par.key;
+                    html += '<input id="' + button_id + '" class="main-element form-control" type="file" name=file_"' + par.key + '" accept=".csv" />';
                     html += '<textarea style="display:none" id=' + par.key + '></textarea>';
+
+					console.log(button_id);
+
+                    param_funcs.push(function() {
+                       let el = document.getElementById(button_id);
+                       $(el).on('change', function(evt) { window.espo_script.onChooseFile(evt, par.key, 'script-msg'); });
+                    });
+
 			    } else {
 					html += '<input class="main-element form-control" type="text" name="' + par.key + '" value="' + par.value + '"/>';
 				}
@@ -429,6 +449,7 @@ define('scripts:views/fields/script', 'views/fields/base', function (Dep) {
 			});
 			html += '</table>';
 			el_pars.html(html);
+            param_funcs.forEach(function (f) { f(); });
 			//console.log(el_pars.html());
 
 			var el_button = element.find('.formula');
