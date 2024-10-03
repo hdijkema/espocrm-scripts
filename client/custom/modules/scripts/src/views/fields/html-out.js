@@ -8,6 +8,8 @@ define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables',
         setup: function () {
             Dep.prototype.setup.call(this);
 
+            this.initHtmlElements();
+
             window.espo_html_out_open = function() {
                 var html = this.$htmlout.html();
                 if (html != '') {
