@@ -2,11 +2,15 @@
     "Datatables": {
         "path": "client/custom/modules/scripts/lib/datatables.min.js",
         "exportsTo": "$",
-        "exportsAs": "Datatables"
+        "exportsAs": "Datatables",
+        "aliases": [
+            "datatables.net",
+            "datatables.net-buttons",
+            "datatables.net-dt",
+            "datatables.net-searchPanes"
+        ]
     },
-    "Xlsx": {
-        "path": "client/custom/modules/scripts/lib/exceljs.min.js",
-        "exportsTo": "$",
-        "exportsAs": "Xlsx"
+    "JSZip": {
+        "path": "client/custom/modules/scripts/lib/jszip.min.js"
     }
 }

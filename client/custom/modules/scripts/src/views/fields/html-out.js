@@ -1,5 +1,5 @@
 // vim: ts=4 sw=4 sts=4 sr et:
-define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables', 'lib!Xlsx'], function (Dep, Datatables, Xlsx) {
+define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables', 'lib!JSZip'], function (Dep, Datatables, JSZip) {
     return Dep.extend({
 
         detailTemplate: 'scripts:fields/htmlOut/detail',
@@ -67,6 +67,15 @@ define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables',
 	************************************************************************************/
 
         initTables: function() {
+            if (
+                JSZip &&
+                $.fn.dataTable &&
+                $.fn.dataTable.Buttons &&
+                typeof $.fn.dataTable.Buttons.jszip === 'function'
+            ) {
+                $.fn.dataTable.Buttons.jszip(JSZip);
+            }
+
             let tables = this.$el.find("table");
             let l = tables.length;
             let i;
@@ -112,9 +121,6 @@ define('scripts:views/fields/html-out', [ 'views/fields/base', 'lib!Datatables',
         },
 
         openHtml: function() {
-            if (window.espo_script !== undefined) {
-                window.espo_script.uitvoerenIfChanged(); 
-            }
             this.$htmlcontainer.css('display', 'block');
             window.result_open = true;
         },

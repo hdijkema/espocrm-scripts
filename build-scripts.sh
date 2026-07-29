@@ -30,13 +30,13 @@ echo "   - Print view"
 echo " - FixedHeader"  
 echo " - SearchPanes"  
 echo ""
-(cd libs; unzip DataTables.zip datatables.min.css datatables.min.js DataTables-1.10.21/images/*)
+(cd libs; unzip DataTables.zip datatables.min.css datatables.min.js DataTables-1.10.21/images/* JSZip-2.5.0/jszip.min.js)
 (cd libs; tar cf - DataTables-1.10.21) | (cd client/custom/modules/scripts/css;tar xf - )
 mkdir -p client/custom/modules/scripts/lib
 cd libs
 cp datatables.min.css ../client/custom/modules/scripts/css/
 cp datatables.min.js ../client/custom/modules/scripts/lib/datatables.min.js
-cp exceljs.min.js ../client/custom/modules/scripts/lib/exceljs.min.js
+cp JSZip-2.5.0/jszip.min.js ../client/custom/modules/scripts/lib/jszip.min.js
 cd ..
 
 $BE "$CMD" "$VERSION" "$EXT" "$NAME" "$DESCRIPTION" "$MODULE"
@@ -45,9 +45,10 @@ rm -f client/custom/modules/scripts/css/datatables.min.css
 rm -rf client/custom/modules/scripts/css/DataTables-1.10.21
 mkdir -p client/custom/modules/scripts/lib
 rm -f client/custom/modules/scripts/lib/datatables.min.js
-rm -f client/custom/modules/scripts/lib/exceljs.min.js
+rm -f client/custom/modules/scripts/lib/jszip.min.js
 
 cd libs
 rm -f datatables.min.js datatables.min.css
 rm -rf DataTables-1.10.21
+rm -rf JSZip-2.5.0
 cd ..
